@@ -1,4 +1,4 @@
-import 'package:baqiyaat/features/language/notifiers/language_notifier.dart';
+import 'package:baqiyaat/core/notifiers/language_notifier.dart';
 
 import '../../../core/utils/navigators.dart';
 import '../../2_dashboard/screens/dashboard_screen.dart';
