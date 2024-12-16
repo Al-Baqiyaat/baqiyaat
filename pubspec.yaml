@@ -33,6 +33,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.6.1
+  window_manager: ^0.4.2
 
 dev_dependencies:
 
