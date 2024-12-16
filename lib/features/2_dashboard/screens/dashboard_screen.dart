@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/responsive_layout/responsive_layout.dart';
+import '../../../core/responsive_layout/responsive_layout.dart';
 import 'desktop_dashboard.dart';
 import 'mobile_dashboard.dart';
 import 'tablet_dashboard.dart';
