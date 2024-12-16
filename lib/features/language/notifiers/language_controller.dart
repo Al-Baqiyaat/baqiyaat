@@ -1,8 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LanguageNotifier extends StateNotifier<bool> {
-  LanguageNotifier() : super(true) {
+// Enum for Language
+enum AppLanguage { en, bn }
+
+class LanguageNotifier extends StateNotifier<AppLanguage> {
+  LanguageNotifier() : super(AppLanguage.en) {
     loadLanguage();
   }
 
@@ -11,16 +14,20 @@ class LanguageNotifier extends StateNotifier<bool> {
   Future<void> loadLanguage() async {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(_key)) {
-      state = prefs.getBool(_key)!;
+      final savedValue = prefs.getString(_key);
+      state = AppLanguage.values.firstWhere(
+        (lang) => lang.toString() == savedValue,
+        orElse: () => AppLanguage.en,
+      );
     } else {
-      state = true;
+      state = AppLanguage.en; // Default language
     }
   }
 
-  Future<void> toggleLanguage(bool value) async {
+  Future<void> setLanguage(AppLanguage language) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_key, value);
-    state = value;
+    await prefs.setString(_key, language.toString());
+    state = language;
   }
 
   // Arabic to English
@@ -75,9 +82,10 @@ class LanguageNotifier extends StateNotifier<bool> {
     return banglaNumber;
   }
 }
+
 // -----------------------------------------------------------------------------
 
-final languageIsEnglishProvider =
-    StateNotifierProvider<LanguageNotifier, bool>((ref) {
+final languageProvider =
+    StateNotifierProvider<LanguageNotifier, AppLanguage>((ref) {
   return LanguageNotifier();
 });
