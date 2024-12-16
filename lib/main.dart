@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'views/init/init_screen.dart';
+import 'features/init/screen/init_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +11,7 @@ void main() async {
 
   WindowOptions windowOptions = WindowOptions(
     size: Size(800, 600),
-    minimumSize: Size(800, 600),
+    minimumSize: Size(350, 600),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
