@@ -31,7 +31,7 @@ class LanguageNotifier extends StateNotifier<AppLanguage> {
   }
 
   // Arabic to English
-  String convertArabicToEnglish(String arabicNumber) {
+  String convertNumbersArabicToEnglish(String arabicNumber) {
     final Map<String, String> englishDigits = {
       '٠': '0',
       '١': '1',
@@ -57,7 +57,7 @@ class LanguageNotifier extends StateNotifier<AppLanguage> {
   }
 
   // English to Bengali
-  String convertEnglishToBangla(String englishNumber) {
+  String convertNumbersEnglishToBangla(String englishNumber) {
     final Map<String, String> banglaDigits = {
       '0': '০',
       '1': '১',

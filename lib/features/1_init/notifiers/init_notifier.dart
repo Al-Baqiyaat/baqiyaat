@@ -1,7 +1,6 @@
-import 'package:baqiyaat/core/notifiers/language_notifier.dart';
-
 import '../../../core/utils/navigators.dart';
 import '../../2_dashboard/screens/dashboard_screen.dart';
+import '../../language/language_notifier.dart';
 import '../../quran/notifiers/quran_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
