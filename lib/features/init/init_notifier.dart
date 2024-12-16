@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/navigators.dart';
 import '../../../views/dashboard/dashboard_screen.dart';
-import '../../quran/notifiers/quran_controller.dart';
+import '../quran/quran_controller.dart';
 
 class InitNotifier extends StateNotifier<bool> {
   final QuranNotifier _quran;
