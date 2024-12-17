@@ -1,9 +1,10 @@
-import '../../../core/utils/navigators.dart';
-import '../../2_home/screens/home_screen.dart';
-import '../../../core/language/language_notifier.dart';
-import '../../quran/notifiers/quran_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../core/language/language_notifier.dart';
+import '../../../core/utils/navigators.dart';
+import '../../2_home/screens/home_screen.dart';
+import '../../quran/notifiers/quran_controller.dart';
 
 class InitNotifier extends StateNotifier<bool> {
   final LanguageNotifier _language;

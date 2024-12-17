@@ -1,11 +1,11 @@
-import '../../dashboard/screens/dashboard_screen.dart';
-import '../../deeds/screens/deeds_screen.dart';
-import '../../learn/screens/learn_screen.dart';
-import '../../salat/screens/salat_screen.dart';
-import '../../quran/screen/quran_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../dashboard/screens/dashboard_screen.dart';
+import '../../deeds/screens/deeds_screen.dart';
+import '../../learn/screens/learn_screen.dart';
+import '../../quran/screen/quran_screen.dart';
+import '../../salat/screens/salat_screen.dart';
 import '../notifiers/view_index_notifier.dart';
 
 class MobileHome extends ConsumerStatefulWidget {

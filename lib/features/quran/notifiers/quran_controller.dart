@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import '../../../models/quran.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../models/quran.dart';
 
 class QuranNotifier extends StateNotifier<List<Surah>> {
   QuranNotifier() : super([]);

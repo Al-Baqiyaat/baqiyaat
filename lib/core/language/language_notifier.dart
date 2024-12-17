@@ -2,10 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Enum for Language
-enum AppLanguage { en, bn }
+enum Language { en, bn }
 
-class LanguageNotifier extends StateNotifier<AppLanguage> {
-  LanguageNotifier() : super(AppLanguage.en) {
+class LanguageNotifier extends StateNotifier<Language> {
+  LanguageNotifier() : super(Language.en) {
     loadLanguage();
   }
 
@@ -15,16 +15,16 @@ class LanguageNotifier extends StateNotifier<AppLanguage> {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(_key)) {
       final savedValue = prefs.getString(_key);
-      state = AppLanguage.values.firstWhere(
+      state = Language.values.firstWhere(
         (lang) => lang.toString() == savedValue,
-        orElse: () => AppLanguage.en,
+        orElse: () => Language.en,
       );
     } else {
-      state = AppLanguage.en; // Default language
+      state = Language.en; // Default language
     }
   }
 
-  Future<void> setLanguage(AppLanguage language) async {
+  Future<void> setLanguage(Language language) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_key, language.toString());
     state = language;
@@ -86,6 +86,6 @@ class LanguageNotifier extends StateNotifier<AppLanguage> {
 // -----------------------------------------------------------------------------
 
 final languageProvider =
-    StateNotifierProvider<LanguageNotifier, AppLanguage>((ref) {
+    StateNotifierProvider<LanguageNotifier, Language>((ref) {
   return LanguageNotifier();
 });

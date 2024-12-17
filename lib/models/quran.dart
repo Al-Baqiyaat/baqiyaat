@@ -1,14 +1,11 @@
-// class Quran {
-//   List<Surah> surahs;
+class LastReadVerse {
+  final Surah surah;
+  final int verseId;
 
-//   Quran({required this.surahs});
+  LastReadVerse({required this.surah, required this.verseId});
+}
 
-//   factory Quran.fromJson(List<dynamic> json) {
-//     return Quran(
-//       surahs: json.map((i) => Surah.fromJson(i)).toList(),
-//     );
-//   }
-// }
+// -----------------------------------------------------------------------------
 
 class Surah {
   int id;
@@ -53,6 +50,8 @@ class Surah {
     );
   }
 }
+
+// -----------------------------------------------------------------------------
 
 class Verse {
   int id;
