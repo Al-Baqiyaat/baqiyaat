@@ -16,6 +16,9 @@ class QuranNotifier extends StateNotifier<List<Surah>> {
   }
 
   Surah? getSurahById(int id) {
+    if (id == 0) {
+      return null;
+    }
     return state.firstWhere((surah) => surah.id == id);
   }
 }

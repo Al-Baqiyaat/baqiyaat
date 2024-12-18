@@ -16,8 +16,9 @@ class QuranScreen extends ConsumerWidget {
     final language = ref.watch(languageProvider);
     final quran = ref.read(quranProvider);
     final lastReadVerse = ref.watch(lastReadVerseProvider);
-    final lastReadSurah =
-        ref.read(quranProvider.notifier).getSurahById(lastReadVerse!.surahId);
+    final lastReadSurah = ref
+        .read(quranProvider.notifier)
+        .getSurahById(lastReadVerse == null ? 0 : lastReadVerse!.surahId);
     return Scaffold(
       appBar: AppBar(),
       body: ListView.builder(
@@ -55,7 +56,7 @@ class QuranScreen extends ConsumerWidget {
                     style: const TextStyle(fontSize: 14),
                   ),
                   subtitle: Text(
-                    '${lastReadSurah.surahNameTransliterationEn}: ${lastReadVerse.verseId}',
+                    '${lastReadSurah.surahNameTransliterationEn}: ${lastReadVerse!.verseId}',
                     style: const TextStyle(
                         fontSize: 24, fontWeight: FontWeight.w500),
                   ),
