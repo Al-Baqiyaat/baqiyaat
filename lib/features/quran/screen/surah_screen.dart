@@ -1,30 +1,27 @@
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../core/language/language_notifier.dart';
-import '../../../models/quran.dart';
-import '../notifiers/last_read_quran_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../notifiers/last_read_verse_notifier.dart';
+import '../notifiers/quran_notifier.dart';
 import '../widgets/surah_card.dart';
 
 class SurahScreen extends ConsumerStatefulWidget {
-  final Surah surah;
-  final int verseId;
+  final int? surahId;
+  final int? verseId;
   const SurahScreen({
     super.key,
-    required this.surah,
-    this.verseId = 0,
+    this.surahId = 1,
+    this.verseId,
   });
 
   @override
-  SurahScreenState createState() => SurahScreenState();
+  ConsumerState<SurahScreen> createState() => _SurahScreenState();
 }
 
-class SurahScreenState extends ConsumerState<SurahScreen> {
-  late bool isPlaying;
-  late AudioPlayer audioPlayer;
-
+class _SurahScreenState extends ConsumerState<SurahScreen> {
   final ItemScrollController itemScrollController = ItemScrollController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
@@ -32,218 +29,74 @@ class SurahScreenState extends ConsumerState<SurahScreen> {
   @override
   void initState() {
     super.initState();
-    isPlaying = false;
-    audioPlayer = AudioPlayer();
     itemPositionsListener.itemPositions.addListener(_scrollListener);
+
+    // Scroll to the specified verse after the widget builds
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.verseId != null) {
+        final index =
+            widget.verseId! - 1; // Assuming 1-based indexing for verses
+        itemScrollController.jumpTo(index: index);
+      }
+    });
   }
 
   @override
   void dispose() {
-    audioPlayer.dispose();
     itemPositionsListener.itemPositions.removeListener(_scrollListener);
     super.dispose();
   }
 
+  int? _previousIndex; // Keeps track of the last recorded index
   void _scrollListener() {
     final positions = itemPositionsListener.itemPositions.value;
     int lastCrossedIndex = -1;
 
+    // Loop through the positions of all the visible items
     for (var position in positions) {
       if (position.itemLeadingEdge < 0.8) {
+        // Threshold for visibility
         if (position.index != 0) {
-          lastCrossedIndex = position.index;
+          lastCrossedIndex =
+              position.index; // Get the index of the last visible item
         }
-      } else {
-        break;
       }
     }
 
-    if (lastCrossedIndex != -1) {
-      ref
-          .read(lastReadVerseProvider.notifier)
-          .saveSurahVerseToSharedPreferences(widget.surah.id, lastCrossedIndex);
+    // Update if the index has changed and is valid
+    if (lastCrossedIndex != -1 && _previousIndex != lastCrossedIndex) {
+      _previousIndex = lastCrossedIndex;
+
+      // Save the last read verse to the state provider
+      ref.read(lastReadVerseProvider.notifier).saveLastReadVerse(
+            widget.surahId!,
+            lastCrossedIndex,
+          );
+
+      print(lastCrossedIndex);
     }
-  }
-
-  void playAudio() async {
-    setState(() {
-      isPlaying = true;
-    });
-
-    await audioPlayer.play(UrlSource(
-        'https://download.quranicaudio.com/qdc/mahmood_khaleel_al-husaree_doori/murattal/${widget.surah.id}.mp3'));
-  }
-
-  void stopAudio() async {
-    await audioPlayer.stop();
-    setState(() {
-      isPlaying = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final language = ref.watch(languageProvider);
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            ref.read(lastReadVerseProvider.notifier).updateState();
-            Navigator.of(context).pop();
-          },
-          icon: Icon(Icons.arrow_back_rounded),
-        ),
-        title: Text(
-          language == Language.bn
-              ? widget.surah.surahNameTransliterationBn
-              : widget.surah.surahNameTransliterationEn,
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 6, right: 6),
-        child: ScrollablePositionedList.separated(
-          initialScrollIndex: widget.verseId,
-          itemScrollController: itemScrollController,
-          itemPositionsListener: itemPositionsListener,
-          itemCount: widget.surah.verses.length + 1,
-          separatorBuilder: (context, index) => const SizedBox(height: 0),
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return Column(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // SvgPicture.asset(Svgs.surahCard),
-                      Positioned(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12, right: 12, bottom: 12, top: 10),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    language == Language.bn
-                                        ? widget
-                                            .surah.surahNameTransliterationBn
-                                        : widget
-                                            .surah.surahNameTransliterationEn,
-                                    style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  // Txt(
-                                  //   !languageIsEnglish
-                                  //       ? widget.surah.transliteratioBn
-                                  //       : widget.surah.transliterationEn,
-                                  //   color: Palette.white,
-                                  //   fontSize: 24,
-                                  //   fontWeight: FontWeight.w500,
-                                  // ),
-                                  // Txt(
-                                  //   widget.surah.name,
-                                  //   color: Palette.white,
-                                  //   fontSize: 24,
-                                  //   fontWeight: FontWeight.w500,
-                                  // ),
-                                  Text(
-                                    widget.surah.surahName,
-                                    style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    language == Language.bn
-                                        ? widget.surah.surahNameTranslationBn
-                                        : widget.surah.surahNameTranslationEn,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  // Txt(
-                                  //   !languageIsEnglish
-                                  //       ? widget.surah.translationBn
-                                  //       : widget.surah.translationEn,
-                                  //   color: Palette.white,
-                                  //   fontSize: 18,
-                                  // ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    language == Language.bn
-                                        ? 'মোট আয়াত: ${ref.read(languageProvider.notifier).convertNumbersEnglishToBangla(widget.surah.verses.length.toString())}'
-                                        : 'Total Verse: ${widget.surah.verses.length}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  // !hasInternet
-                                  //     ? const SizedBox.shrink()
-                                  //     : IconButton(
-                                  //         onPressed: () {
-                                  //           // Toggle between play and stop
-                                  //           if (!isPlaying) {
-                                  //             playAudio();
-                                  //           } else {
-                                  //             stopAudio();
-                                  //           }
-                                  //         },
-                                  //         icon: Icon(isPlaying
-                                  //             ? Icons.stop
-                                  //             : Icons.play_arrow),
-                                  //       ),
-                                  // -------------------------------------------
-                                  // Txt(
-                                  //   !languageIsEnglish
-                                  //       ? 'মোট আয়াত: ${ref.read(languageIsEnglishProvider.notifier).convertEnglishToBangla(widget.surah.verses.length.toString())}'
-                                  //       : 'Total Verse: ${widget.surah.verses.length}',
-                                  //   color: Palette.white,
-                                  //   fontSize: 18,
-                                  // ),
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-                              const Divider(),
-                              const SizedBox(height: 4),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            } else {
-              final verse = widget.surah.verses[index - 1];
+    final surah =
+        ref.read(quranProvider.notifier).getSurahById(widget.surahId!);
 
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SurahCard(
-                  isEnglish: language == Language.bn,
-                  ref: ref,
-                  surahId: widget.surah.id,
-                  verse: verse,
-                ),
-              );
-            }
-          },
-        ),
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(),
+        body: Container(
+          color: Colors.white,
+          child: ScrollablePositionedList.separated(
+            itemScrollController: itemScrollController,
+            itemPositionsListener: itemPositionsListener,
+            itemCount: surah!.verses.length,
+            separatorBuilder: (context, index) => Divider(),
+            itemBuilder: (context, index) {
+              final verse = surah.verses[index];
+              return SurahCard(verse: verse);
+            },
+          ),
+        ));
   }
 }

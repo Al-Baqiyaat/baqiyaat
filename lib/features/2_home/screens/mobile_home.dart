@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/constants/icons.dart';
 import '../../dashboard/screens/dashboard_screen.dart';
 import '../../deeds/screens/deeds_screen.dart';
 import '../../learn/screens/learn_screen.dart';
 import '../../quran/screen/quran_screen.dart';
-import '../../salat/screens/salat_screen.dart';
+import '../../salah/screens/salah_screen.dart';
 import '../notifiers/view_index_notifier.dart';
 
 class MobileHome extends ConsumerStatefulWidget {
@@ -21,7 +22,7 @@ class _MobileHomeState extends ConsumerState<MobileHome> {
     DeedsScreen(),
     LearnScreen(),
     QuranScreen(),
-    SalatScreen(),
+    SalahScreen(),
   ];
 
   @override
@@ -56,41 +57,36 @@ class _MobileHomeState extends ConsumerState<MobileHome> {
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: Icon(
-                  Icons.home,
-                  size: 25,
+                  CustomIcons.home,
                 ),
               )),
           BottomNavigationBarItem(
-              label: 'Match',
+              label: 'Deeds',
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: Icon(
-                  Icons.explore,
-                  size: 25,
+                  CustomIcons.deeds,
                 ),
               )),
           BottomNavigationBarItem(
-              label: '',
+              label: 'Learn',
               icon: Icon(
-                Icons.add,
-                size: 40,
+                CustomIcons.learn,
               )),
           BottomNavigationBarItem(
-              label: 'Inbox',
+              label: 'Quran',
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: Icon(
-                  Icons.inbox,
-                  size: 25,
+                  CustomIcons.quran,
                 ),
               )),
           BottomNavigationBarItem(
-              label: 'Profile',
+              label: 'Salah',
               icon: Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: Icon(
-                  Icons.person,
-                  size: 25,
+                  CustomIcons.prayer,
                 ),
               )),
         ],

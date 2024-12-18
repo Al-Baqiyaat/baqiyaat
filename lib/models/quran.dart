@@ -1,12 +1,3 @@
-class LastReadVerse {
-  final Surah surah;
-  final int verseId;
-
-  LastReadVerse({required this.surah, required this.verseId});
-}
-
-// -----------------------------------------------------------------------------
-
 class Surah {
   int id;
   int totalVerses;
