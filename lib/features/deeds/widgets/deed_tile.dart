@@ -22,7 +22,7 @@ class _DeedTileState extends ConsumerState<DeedTile> {
   Widget build(BuildContext context) {
     final language = ref.watch(languageProvider);
     ref.watch(deedsProvider);
-    return Card(
+    return Card.outlined(
       child: ListTile(
         leading: CupertinoCheckbox(
           value: ref.watch(deedsProvider.notifier).getIsDoneStatus(widget.deed),

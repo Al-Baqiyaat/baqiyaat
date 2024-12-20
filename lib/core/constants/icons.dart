@@ -9,4 +9,6 @@ class CustomIcons {
   static const IconData learn = HugeIcons.strokeRoundedAlphabetArabic;
   static const IconData quran = HugeIcons.strokeRoundedQuran03;
   static const IconData prayer = HugeIcons.strokeRoundedPrayerRug02;
+  // ---------------------------------------------------------------------------
+  static const IconData play = HugeIcons.strokeRoundedPlayCircle02;
 }
