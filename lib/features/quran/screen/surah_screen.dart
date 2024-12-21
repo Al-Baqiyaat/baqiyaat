@@ -23,9 +23,8 @@ class SurahScreen extends ConsumerWidget {
         appBar: AppBar(),
         body: Container(
           color: Colors.white,
-          child: ListView.separated(
+          child: ListView.builder(
             itemCount: surah!.verses.length,
-            separatorBuilder: (context, index) => Divider(),
             itemBuilder: (context, index) {
               final verse = surah.verses[index];
               return VerseCard(verse: verse);
