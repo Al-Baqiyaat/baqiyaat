@@ -35,8 +35,6 @@ dependencies:
   flutter_riverpod: ^2.6.1
   hugeicons: ^0.0.7
   intl: ^0.20.1
-  scrollable_positioned_list: ^0.3.8
-  search_highlight_text: ^1.0.0+2
   shared_preferences: ^2.3.3
   window_manager: ^0.4.2
 
@@ -58,6 +56,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/jsons/
+    - assets/audio/quran/quran_1/
+    - assets/audio/quran/quran_2/
+    - assets/audio/quran/quran_3/
+    - assets/audio/quran/quran_4/
+    - assets/audio/quran/quran_5/
+    - assets/audio/quran/quran_6/
+    - assets/audio/quran/quran_7/
     - assets/audio/lessons/lesson1/
     - assets/audio/lessons/lesson2/
   # An image asset can refer to one or more resolution-specific "variants", see

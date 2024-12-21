@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../models/lessons.dart';
 
-class Alphabets extends StatelessWidget {
-  const Alphabets({super.key});
+class Lesson1Screen extends StatelessWidget {
+  const Lesson1Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -283,7 +283,7 @@ class Alphabets extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Alphabets'),
+        title: const Text('Forms of Letters'),
         centerTitle: true,
       ),
       body: ListView.builder(

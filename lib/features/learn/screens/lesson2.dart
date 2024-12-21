@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../widgets/lesson2_card.dart';
 
-class AlphabetsTest extends StatelessWidget {
-  const AlphabetsTest({super.key});
+class Lesson2Screen extends StatelessWidget {
+  const Lesson2Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class AlphabetsTest extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Compound Alphabets'),
+        title: const Text('Grouped Letters'),
         centerTitle: true,
       ),
       body: GridView.builder(
